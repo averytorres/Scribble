@@ -9,8 +9,11 @@ How to use:
 */
 
 GuiArray := []
+lineThickness =3
+
 Restart:
 CoordMode, mouse,Screen
+MyGui:= new c_Gui()
 If !pToken := Gdip_Startup()
 {
 	MsgBox, 48, gdiplus error!, Gdiplus failed to start. Please ensure you have gdiplus on your system
@@ -53,6 +56,16 @@ Hotkey, LButton, Off
 OnMessage(0x201, "WM_LBUTTONDOWN")
 return
 
+^l::
+Hotkey, LButton, Off
+InputBox, inLineSize, Line Size, Please enter a new line size., , 250, 150
+if ErrorLevel
+    ;user does not change line size
+	lineThickness = 3
+else
+	lineThickness = %inLineSize%
+return
+
 Esc::
 delGui := GuiArray.Remove()
 delGui.DeleteAllLines()
@@ -63,7 +76,7 @@ return
 
 DrawFree:
 	
-	MyGui.DrawLine()
+	MyGui.DrawLine(lineThickness)
 	GuiArray.Insert(MyGui)
 	MyGui:= new c_Gui()
 return
@@ -90,6 +103,7 @@ WM_LBUTTONDOWN()
 Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/viewtopic.php?p=572041#p572041
 	
 	__New(o="") {
+		this.setLineThickness(3)
 		Gui, New, +Hwndhwnd
 		Gui %hwnd%: -Caption +E0x80000 +ToolWindow +AlwaysOnTop +OwnDialogs +Hwndhwnd
 		Gui %hwnd%: Show, NA
@@ -108,8 +122,13 @@ Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/v
 		UpdateLayeredWindow(hwnd, hdc, 0, 0, A_ScreenWidth, A_ScreenHeight)
 		this.hwnd := hwnd, this.hbm := hbm, this.hdc := hdc, this.obm := obm, this.G := G, this.pPen := pPen, this.pBrush := pBrush this.r := r
 	}
-	DrawLine() {
-		thickness = 3
+	setLineThickness(inThickness){
+		this.thickness := %inThickness%
+	}
+	getLineThickness(){
+		return this.thickness
+	}
+	DrawLine(thickness) {
 		
 		
 		MouseGetPos StartX, StartY
