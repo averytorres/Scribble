@@ -14,6 +14,8 @@ lineThickness =3
 Restart:
 CoordMode, mouse,Screen
 MyGui:= new c_Gui()
+Hotkey, LButton, DrawFree, off
+
 If !pToken := Gdip_Startup()
 {
 	MsgBox, 48, gdiplus error!, Gdiplus failed to start. Please ensure you have gdiplus on your system
@@ -57,12 +59,10 @@ OnMessage(0x201, "WM_LBUTTONDOWN")
 return
 
 ^l::
+
 Hotkey, LButton, Off
 InputBox, inLineSize, Line Size, Please enter a new line size., , 250, 150
-if ErrorLevel
-    ;user does not change line size
-	lineThickness = 3
-else
+if not ErrorLevel
 	lineThickness = %inLineSize%
 return
 
