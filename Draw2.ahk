@@ -39,14 +39,14 @@ if !MyGui
 	
 	MyGui:= new c_Gui()
 }
-Tooltip, Screengrab Mode on
+Tooltip, Screengrab Mode On
 Sleep 400
 ToolTip
 Hotkey, LButton, DrawRect, On
 return
 
 F3::
-Tooltip, Draw Mode off
+Tooltip, Movement Mode On
 Sleep 400
 ToolTip
 Hotkey, LButton, Off
