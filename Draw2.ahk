@@ -22,26 +22,36 @@ F1::
 
 if !MyGui
 {
-	ToolTip, Freehand Mode On, 
+	
 	MyGui:= new c_Gui()
 }
 
-Sleep 200
+ToolTip, Freehand Mode On, 
+Sleep 400
 ToolTip
-GuiArray.Insert(MyGui)
 Hotkey, LButton, DrawFree, On
 return
 
 F2::
 
-MyGui:= new c_Gui()
+if !MyGui
+{
+	
+	MyGui:= new c_Gui()
+}
 Tooltip, Screengrab Mode on
-Sleep 200
+Sleep 400
 ToolTip
-GuiArray.Insert(MyGui)
 Hotkey, LButton, DrawRect, On
 return
 
+F3::
+Tooltip, Draw Mode off
+Sleep 400
+ToolTip
+Hotkey, LButton, Off
+OnMessage(0x201, "WM_LBUTTONDOWN")
+return
 
 Esc::
 delGui := GuiArray.Remove()
@@ -49,22 +59,20 @@ delGui.DeleteAllLines()
 delGui := ""
 return
 
-F3::
-Tooltip, Draw Mode off, 3
-Sleep 200
-ToolTip
-Hotkey, LButton, Off
-OnMessage(0x201, "WM_LBUTTONDOWN")
-return
+
 
 DrawFree:
 	
 	MyGui.DrawLine()
+	GuiArray.Insert(MyGui)
+	MyGui:= new c_Gui()
 return
 
 DrawRect:
 	
 	MyGui.DrawRect()
+	GuiArray.Insert(MyGui)
+	MyGui:= new c_Gui()
 return
 
 
