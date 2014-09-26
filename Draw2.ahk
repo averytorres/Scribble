@@ -122,12 +122,7 @@ Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/v
 		UpdateLayeredWindow(hwnd, hdc, 0, 0, A_ScreenWidth, A_ScreenHeight)
 		this.hwnd := hwnd, this.hbm := hbm, this.hdc := hdc, this.obm := obm, this.G := G, this.pPen := pPen, this.pBrush := pBrush this.r := r
 	}
-	setLineThickness(inThickness){
-		this.thickness := %inThickness%
-	}
-	getLineThickness(){
-		return this.thickness
-	}
+
 	DrawLine(thickness) {
 		
 		
