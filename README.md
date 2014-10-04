@@ -13,4 +13,4 @@ _________
   + Drag line start or end point to move it.
 - Press **Esc** undo last draw.  
 - Pressing **CTRL + L** will enable the user to change the width of the lines for draw mode.
-- Pressing **CTRL + C** will enable the user to chnage the color of the lines for draw mode. (WORK IN PROGRESS)
+- Pressing **CTRL + C** will enable the user to change the color of the lines for draw mode. (WORK IN PROGRESS)
