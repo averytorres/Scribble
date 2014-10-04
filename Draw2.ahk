@@ -10,6 +10,7 @@ How to use:
 
 GuiArray := []
 lineThickness =3
+currentColor = FF000000
 
 Restart:
 CoordMode, mouse,Screen
@@ -29,8 +30,8 @@ if !MyGui
 {
 	
 	MyGui:= new c_Gui()
+	
 }
-
 ToolTip, Freehand Mode On, 
 Sleep 400
 ToolTip
@@ -66,6 +67,16 @@ if not ErrorLevel
 	lineThickness = %inLineSize%
 return
 
+^c::
+;beginnings of color changing is here, have it taking in a new color and keeping it, need to implement a way to dynamically change it
+inColor = FF6F44
+currentColor = %inColor%00
+ToolTip, Color Changed, 
+Sleep 400
+ToolTip
+Hotkey, LButton, DrawFree, On
+return
+
 Esc::
 delGui := GuiArray.Remove()
 delGui.DeleteAllLines()
@@ -76,6 +87,7 @@ return
 
 DrawFree:
 	
+	MyGui.PenColor(lineThickness, currentColor)
 	MyGui.DrawLine(lineThickness)
 	GuiArray.Insert(MyGui)
 	MyGui:= new c_Gui()
@@ -103,7 +115,7 @@ WM_LBUTTONDOWN()
 Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/viewtopic.php?p=572041#p572041
 	
 	__New(o="") {
-		this.setLineThickness(3)
+		
 		Gui, New, +Hwndhwnd
 		Gui %hwnd%: -Caption +E0x80000 +ToolWindow +AlwaysOnTop +OwnDialogs +Hwndhwnd
 		Gui %hwnd%: Show, NA
@@ -112,7 +124,7 @@ Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/v
 		if (G < 1)
 			pToken := Gdip_Startup(), G := Gdip_GraphicsFromHDC(hdc), this.pToken := pToken
 		Gdip_SetSmoothingMode(G, 4), Gdip_SetInterpolationMode(G, 5)
-		PenColor := (o.PenColor) ? o.PenColor : "ff0000ff", PenWidth := (o.PenWidth) ? o.PenWidth : 3
+		PenColor := (o.PenColor) ? o.PenColor : "FF000000", PenWidth := (o.PenWidth) ? o.PenWidth : 3
 		pPen := Gdip_CreatePen("0x" PenColor, PenWidth)
 		pBrush := Gdip_BrushCreateSolid("0x" PenColor)
 		
@@ -123,6 +135,16 @@ Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/v
 		this.hwnd := hwnd, this.hbm := hbm, this.hdc := hdc, this.obm := obm, this.G := G, this.pPen := pPen, this.pBrush := pBrush this.r := r
 	}
 
+
+	PenColor(thickness, lineColor) {
+
+		PenColor := (o.PenColor) ? o.PenColor : lineColor, PenWidth := (o.PenWidth) ? o.PenWidth : thickness
+		pPen := Gdip_CreatePen("0x" PenColor, PenWidth)
+
+		this.pPen := pPen
+
+	}
+	
 	DrawLine(thickness) {
 		
 		
