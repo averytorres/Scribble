@@ -12,3 +12,4 @@ _________
 - Press **F3** to disable draw mode/ screen grab mode and enable movement of on screen artifacts.
   + Drag line start or end point to move it.
 - Press **Esc** undo last draw.  
+- Pressing **CTRL + L** will enable the user to change the width of the lines for draw mode.
