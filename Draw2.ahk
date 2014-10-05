@@ -3,6 +3,7 @@
 GuiArray := []
 lineThickness =3
 currentColor = FF000000
+currentOpacity= FF
 num =0
 
 
@@ -65,8 +66,10 @@ F5::
 ;colors now changing, havent done bug testing yet
 Hotkey, LButton, Off
 Gosub genColorPicker
-RGB=FF%Red_Value%%Green_Value%%Blue_Value%
+currentOpacity=%Opacity_Value%
+RGB=%currentOpacity%%Red_Value%%Green_Value%%Blue_Value%
 currentColor = %RGB%
+
 ToolTip, Color Changed, 
 Sleep 400
 Hotkey, LButton, DrawFree, On

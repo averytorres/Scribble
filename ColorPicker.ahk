@@ -28,19 +28,26 @@ genColorPicker:
    Gui, Add, UpDown, Range0-255 Wrap, 0
    Gui, Add, Slider, x10 y190 w110 Range0-255 vBlue_Slider gChange_Blue_Slider ALtSubmit, 0
 
+   gui, font,s14 w1000 c000000, Verdana
+   Gui, Add, Text, x20 y230, A
+   gui, font,s10 c000000 w400
+   Gui, Add, Edit, x45 y230 w40 +right vOpacity_Value gChange_Opacity_Value,0
+   Gui, Add, UpDown, Range0-255 Wrap, 255
+   Gui, Add, Slider, x10 y260 w110 Range0-255 vOpacity_Slider gChange_Opacity_Slider ALtSubmit, 0
+
    Gui, Add, ListView, x124 y20 h120 w120 ReadOnly 0x4000 +Background000000 VColor_Block
   
    gui, font,s10 c000000 w400,
-   Gui, Add, text, x124 y160 +right, Hex:
-   Gui, Add, Edit, x161 y155 w81 +right VColor_Value
+   Gui, Add, text, x124 y230 +right, Hex:
+   Gui, Add, Edit, x161 y230 w81 +right VColor_Value
    
    ;Gui, Add, Button, x124 y196 w55 +center gGuiClose, Ok
    
-   Gui, Add, Button, x190 y196 w55 +center gCopy_Hex_To_Clipboard, Okay
+   Gui, Add, Button, x190 y260 w55 +center gCopy_Hex_To_Clipboard, Okay
    
    Gosub Show_New_Color
    
-   Gui, Show, x440 y329 h240 w260, Color Picker
+   Gui, Show, x440 y329 h300 w260, Color Picker
    
    WinWait,Color Picker ahk_class AutoHotkeyGUI
    WinWaitClose
@@ -57,6 +64,12 @@ genColorPicker:
 
 ;===============================================================
 ;Sliders
+Change_Opacity_Slider:
+      GuiControlGet, Opacity_Slider
+      GuiControl, Text, Opacity_Value, %Opacity_Slider%
+      gosub Show_New_Color
+   Return 
+
    Change_Red_Slider:
       GuiControlGet, Red_Slider
       GuiControl, Text, Red_Value, %Red_Slider%
@@ -77,6 +90,12 @@ genColorPicker:
 
 ;===============================================================
 ;Value  boxes
+Change_Opacity_Value:
+      GuiControlGet, Opacity_Value
+      GuiControl, Text, Opacity_Slider, %Opacity_Value%
+      Gosub Show_New_Color
+   Return   
+
 Change_Red_Value:
       GuiControlGet, Red_Value
       GuiControl, Text, Red_Slider, %Red_Value%
@@ -102,10 +121,15 @@ Show_New_Color:
    Gui submit, nohide
    
    SetFormat, integer, hex
+   Opacity_Value += 0
    Red_Value += 0
    Green_Value += 0
    Blue_Value += 0
    SetFormat, integer, d
+   
+   Stringright,Opacity_Value,Opacity_Value,StrLen(Opacity_Value)-2
+   If (StrLen(Opacity_Value)=1)
+      Opacity_Value=0%Opacity_Value%
    
    Stringright,Red_Value,Red_Value,StrLen(Red_Value)-2
    If (StrLen(Red_Value)=1)
