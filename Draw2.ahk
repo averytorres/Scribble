@@ -1,16 +1,10 @@
-﻿;===Auto-execute========================================================================
-/*
-How to use:
-- Click, drag, release F1 to draw new line (multiple lines supported)
-- Drag line start or end point to move it
-- Press F2 to delete last line
-- Press F3 to delete all lines
-- Press Esc to exit
-*/
+﻿
 
 GuiArray := []
 lineThickness =3
 currentColor = FF000000
+num =0
+
 
 Restart:
 CoordMode, mouse,Screen
@@ -59,7 +53,7 @@ Hotkey, LButton, Off
 OnMessage(0x201, "WM_LBUTTONDOWN")
 return
 
-^l::
+F4::
 
 Hotkey, LButton, Off
 InputBox, inLineSize, Line Size, Please enter a new line size., , 250, 150
@@ -67,22 +61,25 @@ if not ErrorLevel
 	lineThickness = %inLineSize%
 return
 
-^c::
-;beginnings of color changing is here, have it taking in a new color and keeping it, need to implement a way to dynamically change it
-inColor = FF6F44
-currentColor = %inColor%00
+F5::
+;colors now changing, havent done bug testing yet
+Hotkey, LButton, Off
+Gosub genColorPicker
+RGB=FF%Red_Value%%Green_Value%%Blue_Value%
+currentColor = %RGB%
 ToolTip, Color Changed, 
 Sleep 400
-ToolTip
 Hotkey, LButton, DrawFree, On
+ToolTip
 return
+
+
 
 Esc::
 delGui := GuiArray.Remove()
 delGui.DeleteAllLines()
 delGui := ""
 return
-
 
 
 DrawFree:
@@ -109,7 +106,7 @@ WM_LBUTTONDOWN()
 
 ;===Functions===========================================================================
 #Include Gdip.ahk				; by Tic	www.autohotkey.com/community/viewtopic.php?f=2&t=32238
-
+#Include ColorPicker.ahk            ; by Lego_coder / Miguel Agullo 
 
 ;===Classes=============================================================================
 Class c_GUI {      ; demo by Learning one. http://www.autohotkey.com/community/viewtopic.php?p=572041#p572041
